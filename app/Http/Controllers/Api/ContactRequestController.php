@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\ContactRequestRequest;
+use App\Mail\ContactRequestDelivered;
 use App\Models\ContactRequest;
 use App\Notifications\ContactRequestReceived;
+use Illuminate\Support\Facades\Mail;
 
 class ContactRequestController extends Controller
 {
@@ -33,8 +35,10 @@ class ContactRequestController extends Controller
     {
         $contactRequest = ContactRequest::create($request->validated());
 
-        $user = $request->user();
-        $user->notify(new ContactRequestReceived($contactRequest));
+        $adminUser = $request->user();
+        $adminUser->notify(new ContactRequestReceived($contactRequest));
+
+        Mail::to($contactRequest->email)->send(new ContactRequestDelivered($contactRequest));
 
         return response()->json($contactRequest, 201);
     }
