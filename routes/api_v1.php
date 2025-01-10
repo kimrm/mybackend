@@ -16,6 +16,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/contact', 'App\Http\Controllers\Api\ContactRequestController@store');
 
         // Projects routes
-        Route::resource('projects', 'App\Http\Controllers\Api\ProjectController')->except(['create', 'edit', 'destroy']);
+        Route::resource('projects', 'App\Http\Controllers\Api\ProjectController')->only(['index', 'show']);
     });
 });
