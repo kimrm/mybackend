@@ -6,6 +6,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Requests\ProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -30,7 +31,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
         //
     }
@@ -56,9 +57,13 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectRequest $request, Project $project)
     {
-        //
+        $data = $request->sanitized();
+
+        $project->update($data);
+
+        return redirect()->route('projects.index');
     }
 
     /**
