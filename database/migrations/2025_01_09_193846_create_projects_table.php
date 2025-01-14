@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->text('description');
-            $table->string('body');
-            $table->string('url');
-            $table->string('repo');
-            $table->string('image');
-            $table->string('tags');
+            $table->string('description')->nullable();
+            $table->text('body')->nullable();
+            $table->string('url')->nullable();
+            $table->string('repo')->nullable();
+            $table->string('image')->nullable();
+            $table->string('tags')->nullable();
             $table->timestamps();
         });
     }
