@@ -13,18 +13,30 @@ interface Project {
     title: string;
     body: string;
     description: string;
+    url: string;
+    repo: string;
+    image: string;
+    tags: string;
     created_at: string;
 }
 
 export default function Edit({ project }: PageProps<{ project: Project }>) {
     const [value, setValue] = useState(project.body);
     const [title, setTitle] = useState(project.title);
+    const [description, setDescription] = useState(project.description);
+    const [url, setUrl] = useState(project.url);
+    const [repo, setRepo] = useState(project.repo);
+    const [image, setImage] = useState(project.image);
+    const [tags, setTags] = useState(project.tags);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formValues = {
             title,
             body: value,
+            description,
+            image,
+            tags,
         };
         router.patch(route("projects.update", project.id), formValues);
     };
@@ -64,6 +76,21 @@ export default function Edit({ project }: PageProps<{ project: Project }>) {
                                         }
                                         className="w-full"
                                     />
+                                    <InputLabel
+                                        htmlFor="description"
+                                        className="mt-4"
+                                    >
+                                        Beskrivelse
+                                    </InputLabel>
+                                    <textarea
+                                        name="description"
+                                        id="description"
+                                        className="h-24 w-full rounded-md border border-neutral-300"
+                                        value={description}
+                                        onChange={(e) =>
+                                            setDescription(e.target.value)
+                                        }
+                                    />
                                     <span className="mt-4 block">Artikkel</span>
                                     <div className="mt-1 h-96">
                                         <ReactQuill
@@ -73,6 +100,52 @@ export default function Edit({ project }: PageProps<{ project: Project }>) {
                                             className="h-full pb-10"
                                         />
                                     </div>
+                                    <InputLabel htmlFor="url" className="mt-4">
+                                        Url
+                                    </InputLabel>
+                                    <TextInput
+                                        name="url"
+                                        id="url"
+                                        value={url}
+                                        onChange={(e) => setUrl(e.target.value)}
+                                        className="w-full"
+                                    />
+                                    <InputLabel htmlFor="repo" className="mt-4">
+                                        Github repo
+                                    </InputLabel>
+                                    <TextInput
+                                        name="repo"
+                                        id="repo"
+                                        value={repo}
+                                        onChange={(e) =>
+                                            setRepo(e.target.value)
+                                        }
+                                        className="w-full"
+                                    />
+                                    <InputLabel htmlFor="repo" className="mt-4">
+                                        Bilde
+                                    </InputLabel>
+                                    <TextInput
+                                        name="image"
+                                        id="image"
+                                        value={image}
+                                        onChange={(e) =>
+                                            setImage(e.target.value)
+                                        }
+                                        className="w-full"
+                                    />
+                                    <InputLabel htmlFor="repo" className="mt-4">
+                                        Tags
+                                    </InputLabel>
+                                    <TextInput
+                                        name="tags"
+                                        id="tags"
+                                        value={tags}
+                                        onChange={(e) =>
+                                            setTags(e.target.value)
+                                        }
+                                        className="w-full"
+                                    />
                                     <div className="mt-4">
                                         <PrimaryButton className="mt-4">
                                             Lagre
