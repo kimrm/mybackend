@@ -25,6 +25,11 @@ class ProjectRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'body' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'url' => ['nullable', 'url'],
+            'repo' => ['nullable', 'url'],
+            'image' => ['nullable', 'string'],
+            'tags' => ['nullable', 'string'],
         ];
     }
 
