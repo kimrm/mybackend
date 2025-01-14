@@ -25,7 +25,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Projects/Create');
     }
 
     /**
@@ -33,7 +33,13 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        //
+        $data = $request->sanitized();
+
+        $data['slug'] = Project::generateUniqueSlug($data['title']);
+
+        $project = Project::create($data);
+
+        return redirect()->route('projects.edit', $project->id);
     }
 
     /**
