@@ -12,7 +12,7 @@ class GoogleCalendarService
     public function __construct()
     {
         $this->client = new Client();
-        $this->client->setAuthConfig(storage_path('app/private/calendarintegration.json')); // Path til credentials.json
+        $this->client->setAuthConfig(storage_path('app/private/calendarintegration.json'));
         $this->client->addScope(Calendar::CALENDAR);
     }
 
