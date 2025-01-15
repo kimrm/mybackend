@@ -6,6 +6,7 @@ use App\Models\Lead;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\LeadCreatedResource;
+use App\Jobs\CreateAppointment;
 use App\Jobs\GenerateLeadSummary;
 
 class LeadController extends Controller
@@ -25,6 +26,7 @@ class LeadController extends Controller
 
         $lead = Lead::create($request->all());
 
+        dispatch(new CreateAppointment($lead));
         dispatch(new GenerateLeadSummary($lead));
 
         return new LeadCreatedResource($lead);
