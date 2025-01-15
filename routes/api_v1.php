@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\GoogleCalendarController;
+use App\Http\Controllers\Api\LeadController;
 
 Route::prefix('v1')->group(function () {
 
@@ -29,5 +30,7 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/calendar/available-events', [GoogleCalendarController::class, 'listAvailableEvents']);
         Route::get('/calendar/events', [GoogleCalendarController::class, 'listEvents']);
+
+        Route::post('/leads', [LeadController::class, 'store']);
     });
 });
