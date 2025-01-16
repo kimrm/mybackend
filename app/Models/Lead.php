@@ -29,7 +29,6 @@ class Lead extends Model
      */
     public function routeNotificationForMail(Notification $notification): array|string
     {
-        // Return email address only...
         return 'kim@kimrune.dev';
     }
 }
