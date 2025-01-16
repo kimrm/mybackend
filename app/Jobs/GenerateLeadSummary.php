@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Models\Lead;
 use App\Services\ChatService;
+use App\Notifications\NewLead;
 
 class GenerateLeadSummary implements ShouldQueue
 {
@@ -33,5 +34,8 @@ class GenerateLeadSummary implements ShouldQueue
         $summary = $promptResponse['content'];
 
         $this->lead->update(['summary' => $summary]);
+
+        $leadNotification = new NewLead($this->lead);
+        $this->lead->notify($leadNotification);
     }
 }
