@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\LeadCreated;
 use App\Models\Lead;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
