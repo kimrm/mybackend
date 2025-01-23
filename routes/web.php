@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SortModelController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('projects', ProjectController::class);
+
+    Route::post('/sort', [SortModelController::class, 'store'])->name('sort.store');
 
     Route::get('/API', [APIController::class, 'edit'])->name('api.edit');
     Route::post('/API', [APIController::class, 'store'])->name('api.store');
