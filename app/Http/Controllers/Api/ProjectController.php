@@ -13,7 +13,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return ProjectResource::collection(Project::all());
+        $sortedProjects = Project::join('sorts', 'projects.id', '=', 'sorts.model_id')
+            ->where('sorts.model', Project::class)
+            ->orderBy('sorts.sort', 'asc')
+            ->with('author')
+            ->get();
+
+        return ProjectResource::collection($sortedProjects);
     }
 
 
