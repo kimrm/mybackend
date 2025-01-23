@@ -18,6 +18,11 @@ class Project extends Model
         'tags',
     ];
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public static function generateUniqueSlug($title)
     {
         $slug = Str::slug($title);
