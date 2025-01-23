@@ -13,6 +13,13 @@ class FeaturedProjectController extends Controller
      */
     public function index()
     {
-        return ProjectResource::collection(Project::all()->take(3)->sortBy('created_at'));
+        $sortedProjects = Project::join('sorts', 'projects.id', '=', 'sorts.model_id')
+            ->where('sorts.model', Project::class)
+            ->orderBy('sorts.sort', 'asc')
+            ->with('author')
+            ->get()
+            ->take(3);
+
+        return ProjectResource::collection($sortedProjects);
     }
 }

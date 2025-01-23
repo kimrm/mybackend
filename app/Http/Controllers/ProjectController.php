@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Requests\ProjectRequest;
@@ -15,8 +14,14 @@ class ProjectController extends Controller
      */
     public function index(): Response
     {
+        $sortedProjects = Project::join('sorts', 'projects.id', '=', 'sorts.model_id')
+            ->where('sorts.model', Project::class)
+            ->orderBy('sorts.sort', 'asc')
+            ->with('author')
+            ->get();
+
         return Inertia::render('Projects/Index', [
-            'projects' => Project::all(),
+            'projects' => $sortedProjects,
         ]);
     }
 
