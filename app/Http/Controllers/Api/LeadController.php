@@ -6,6 +6,7 @@ use App\Models\Lead;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\LeadCreatedResource;
+use App\Jobs\ConfirmRequest;
 use App\Jobs\CreateAppointment;
 use App\Jobs\GenerateLeadSummary;
 
@@ -14,7 +15,7 @@ class LeadController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $leadAttributes = $request->validate([
             'subject' => 'nullable|string',
             'name' => 'required|string',
             'email' => 'required|email',
@@ -24,10 +25,11 @@ class LeadController extends Controller
             'appointment' => 'nullable|date',
         ]);
 
-        $lead = Lead::create($request->all());
+        $lead = Lead::create($leadAttributes);
 
         dispatch(new CreateAppointment($lead));
         dispatch(new GenerateLeadSummary($lead));
+        dispatch(new ConfirmRequest($lead));
 
         return new LeadCreatedResource($lead);
     }
