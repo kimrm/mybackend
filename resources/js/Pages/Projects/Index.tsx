@@ -1,17 +1,21 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { PageProps } from "@/types";
-
-interface Project {
-    id: number;
-    name: string;
-    description: string;
-    created_at: string;
-}
+import { PageProps, Project } from "@/types";
+import { useState } from "react";
+import ProjectList from "@/Components/Project/ProjectList";
+import axios from "axios";
 
 export default function Index({
     projects,
 }: PageProps<{ projects: Project[] }>) {
+    const [projectsList, setProjectsList] = useState<Project[]>(projects);
+
+    const updateSortingBackend = (projectsList: Project[]) => {
+        axios
+            .post(route("sort.store"), { projects: projectsList })
+            .then((response) => console.log(response.data))
+            .catch((error) => console.error("Error:", error));
+    };
     return (
         <AuthenticatedLayout
             header={
@@ -28,18 +32,16 @@ export default function Index({
                         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                             Prosjekter
                         </h2>
-                        <ul>
-                            {projects.map((project) => (
-                                <li key={project.id}>
-                                    <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-200">
-                                        {project.name}
-                                    </h3>
-                                    <p>{project.description}</p>
-                                    <p>Opprettet: {project.created_at}</p>
-                                </li>
-                            ))}
-                            ;
-                        </ul>
+                        <p>
+                            Her finner du en oversikt over alle prosjektene du
+                            har tilgang til. De vises i den rekkefølgen de vises
+                            på din hjemmeside.
+                        </p>
+                        <ProjectList
+                            projects={projectsList}
+                            setProjects={setProjectsList}
+                            updatedCallback={updateSortingBackend}
+                        />
                     </div>
                 </div>
             </div>
