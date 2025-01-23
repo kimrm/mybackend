@@ -97,7 +97,8 @@ class GoogleCalendarController extends Controller
 
                 if (!$isBusy) {
                     $availableEvents[] = [
-                        'id' => $slotStart->toIso8601String(),
+                        'id' => $slotStart->toRfc3339String(),
+                        'datetime' => $slotStart->toRfc3339String(),
                         'day' => $slotStart->isoFormat('dddd'),
                         'date' => $slotStart->toDateString(),
                         'time' => $timeSlot,
@@ -116,6 +117,7 @@ class GoogleCalendarController extends Controller
 
     public function createEvent(Request $request)
     {
+
         $eventData = [
             'summary' => $request->input('summary'),
             'start' => [
