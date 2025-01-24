@@ -60,6 +60,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project): Response
     {
+        $project->load('images');
         return Inertia::render('Projects/Edit', [
             'project' => $project,
         ]);
