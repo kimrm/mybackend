@@ -23,6 +23,11 @@ class Project extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
     public static function generateUniqueSlug($title)
     {
         $slug = Str::slug($title);
