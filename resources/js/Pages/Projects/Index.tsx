@@ -32,7 +32,7 @@ export default function Index({
                         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                             Prosjekter
                         </h2>
-                        <p>
+                        <p className="text-gray-600 dark:text-gray-400">
                             Her finner du en oversikt over alle prosjektene du
                             har tilgang til. De vises i den rekkefølgen de vises
                             på din hjemmeside.
