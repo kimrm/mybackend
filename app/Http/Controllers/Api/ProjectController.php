@@ -17,6 +17,7 @@ class ProjectController extends Controller
             ->where('sorts.model', Project::class)
             ->orderBy('sorts.sort', 'asc')
             ->with('author')
+            ->with('images')
             ->get();
 
         return ProjectResource::collection($sortedProjects);
