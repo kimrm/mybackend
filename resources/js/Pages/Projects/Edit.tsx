@@ -18,6 +18,11 @@ interface Project {
     image: string;
     tags: string;
     created_at: string;
+    images: {
+        id: number;
+        url: string;
+        image_full_url: string;
+    }[];
 }
 
 export default function Edit({ project }: PageProps<{ project: Project }>) {
@@ -28,6 +33,9 @@ export default function Edit({ project }: PageProps<{ project: Project }>) {
     const [repo, setRepo] = useState(project.repo);
     const [image, setImage] = useState(project.image);
     const [tags, setTags] = useState(project.tags);
+    const [file, setFile] = useState<File | null>(null);
+
+    console.log(project);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -39,6 +47,26 @@ export default function Edit({ project }: PageProps<{ project: Project }>) {
             tags,
         };
         router.patch(route("projects.update", project.id), formValues);
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.length && e.target.files[0];
+        if (!file) {
+            return;
+        }
+        setFile(file);
+    };
+
+    const handleImageUpload = () => {
+        if (!file) {
+            return;
+        }
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("imageable_id", project.id.toString());
+        formData.append("imageable_type", "App\\Models\\Project");
+
+        router.post(route("image.store"), formData);
     };
 
     return (
@@ -122,6 +150,29 @@ export default function Edit({ project }: PageProps<{ project: Project }>) {
                                         }
                                         className="w-full"
                                     />
+                                    <div className="mt-4 flex flex-wrap">
+                                        {project.images &&
+                                            project.images.map((image) => (
+                                                <img
+                                                    key={image.id}
+                                                    src={image.url}
+                                                    alt={image.url}
+                                                    className="h-24 w-24 object-cover"
+                                                />
+                                            ))}
+                                    </div>
+                                    <input
+                                        type="file"
+                                        name="image"
+                                        onChange={handleFileChange}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleImageUpload}
+                                    >
+                                        Last opp
+                                    </button>
+
                                     <InputLabel htmlFor="repo" className="mt-4">
                                         Bilde
                                     </InputLabel>
